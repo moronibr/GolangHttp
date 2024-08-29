@@ -46,6 +46,12 @@ func RenderTemplate(w http.ResponseWriter, page string) {
 func main() {
 	cache = make(map[string]*template.Template)
 
+	config := Config{
+		Port:    "3000",
+		Env:     "dev",
+		Version: "1.0.0",
+	}
+
 	http.HandleFunc("/", HomeHandler)
 	http.HandleFunc("/contact", ContactHandler)
 
@@ -57,5 +63,6 @@ func main() {
 		http.StripPrefix("/static/",
 			http.FileServer(http.Dir("static"))))
 
-	http.ListenAndServe(":3000", nil)
+	http.ListenAndServe(fmt.Sprintf(":%s", config.Port), nil)
+
 }
